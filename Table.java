@@ -21,6 +21,8 @@ public class Table {
 
 	public BigDecimal getCellValue(String name) {
 		Cell cell = table.get(name);
+		cell.value = cell.evaluate(); // calculate & update cell
+										// value
 		return cell.value;
 	}
 }

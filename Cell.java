@@ -11,6 +11,9 @@ public class Cell {
 	Expression formula;
 	boolean isFormula;
 
+	/**
+	 * constructor
+	 */
 	public Cell(Table sheet, String name) {
 		this.sheet = sheet;
 		this.name = name;
@@ -18,12 +21,18 @@ public class Cell {
 		children = new ArrayList<String>();
 	}
 
+	/**
+	 * set constant value to cell
+	 */
 	public void setValue(BigDecimal v) {
 		clearDependencies();
 		value = v;
 		isFormula = false;
 	}
 
+	/**
+	 * set formula value to cell
+	 */
 	public void setFormula(String f) {
 		clearDependencies();
 		formula = new Expression(f);
@@ -34,10 +43,11 @@ public class Cell {
 		for (String p : parents) {
 			sheet.getCell(p).children.add(name);
 		}
+		value = evaluate();
 	}
 
 	/**
-	 * extract a list of variable while ignoring constants
+	 * extract a list of variable names (for parents) while ignoring constants
 	 */
 	public ArrayList<String> getParents(String str) {
 		ArrayList<String> res = new ArrayList<String>();
